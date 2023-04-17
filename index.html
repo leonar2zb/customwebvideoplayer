@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <link href="https://fonts.cdnfonts.com/css/heydings-controls" rel="stylesheet">
+    <link rel="stylesheet" href="./fontawesome/css/all.min.css">
     <script src="./app.js" defer></script>
     <title>Reproductor video personalizado</title>
 </head>
@@ -22,14 +22,22 @@
             Su reproductor no admite videos, al menos no soporta los formatos utilizados
         </video>
         <div class="controls">
-            <button class="play" data-icon="P" aria-label="play pause toggle"></button>
-            <button class="stop" data-icon="S" aria-label="stop"></button>
+            <button class="play" aria-label="play pause toggle">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="stop" aria-label="stop">
+                <i class="fas fa-stop"></i>
+            </button>
             <div class="timer">
                 <div></div>
                 <span aria-label="timer">00:00</span>
             </div>
-            <button class="rwd" data-icon="B" aria-label="rewind"></button>
-            <button class="fwd" data-icon="F" aria-label="fast forward"></button>
+            <button class="rwd" aria-label="rewind">
+                <i class="fas fa-fast-backward"></i>
+            </button>
+            <button class="fwd" aria-label="fast forward">
+                <i class="fas fa-fast-forward"></i>
+            </button>
         </div>
     </div>
 

@@ -2,6 +2,7 @@ const media = document.querySelector('video');
 const controls = document.querySelector('.controls');
 
 const play = document.querySelector('.play');
+const play_i = document.querySelector('.play i');
 const stop = document.querySelector('.stop');
 const rwd = document.querySelector('.rwd');
 const fwd = document.querySelector('.fwd');
@@ -14,10 +15,12 @@ play.addEventListener('click', playPauseMedia);
 
 function playPauseMedia() {
     if (media.paused) {
-        play.setAttribute('data-icon', 'u');
+        play_i.classList.remove('fa-play');
+        play_i.classList.add('fa-pause');
         media.play();
     } else {
-        play.setAttribute('data-icon', 'P');
+        play_i.classList.remove('fa-pause');
+        play_i.classList.add('fa-play');
         media.pause();
     }
 }
@@ -30,7 +33,8 @@ function stopMedia() {
 
     media.pause();
     media.currentTime = 0;
-    play.setAttribute('data-icon', 'P');
+    play_i.classList.remove('fa-pause');
+    play_i.classList.add('fa-play');
 }
 
 let intervalFwd;
