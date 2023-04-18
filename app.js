@@ -10,6 +10,8 @@ const fwd = document.querySelector('.fwd');
 const timerWrapper = document.querySelector('.timer');
 const timer = document.querySelector('.timer span');
 const timerBar = document.querySelector('.timer div');
+const player = document.querySelector('.player');
+let totalMediaTime = '??:??'; // Para almacenar como cadena duración video
 
 play.addEventListener('click', playPauseMedia);
 
@@ -120,12 +122,35 @@ function setTime() {
     const secondValue = seconds.toString().padStart(2, '0');
 
     const mediaTime = `${minuteValue}:${secondValue}`;
-    timer.textContent = mediaTime;
+    timer.textContent = mediaTime + '/' + totalMediaTime;
 
     const barLength = timerWrapper.clientWidth * (media.currentTime / media.duration);
     timerBar.style.width = `${barLength}px`;
 }
 
+// Calcular la duración total del video en formato minutos:segundos
+function calcularTiempo() {
+    const totalMinutes = Math.floor(media.duration / 60);
+    const totalSeconds = Math.floor(media.duration - totalMinutes * 60);
+    const totalMinuteValue = totalMinutes.toString().padStart(2, '0');
+    const totalSecondValue = totalSeconds.toString().padStart(2, '0');
+    totalMediaTime = `${totalMinuteValue}:${totalSecondValue}`;
+    timer.textContent = '00:00' + '/' + totalMediaTime;
+}
+
+// Calcular nueva posición a reproducir al dar clic sobre barra progreso
+function moveToTimeOffset(e) {
+    x = e.clientX; // posic clickeada en timeWrapper
+    op = player.offsetLeft; // posic relativa del player dentro del padre
+    ot = timerWrapper.offsetLeft; // posic relativa del timeWrapper en player
+    w = this.clientWidth; // ancho de la barra progreso
+    porc = (x - op - ot) / w * 100; // porc que representa la posic clickeada
+    tiempTotal = media.duration; // duraccion (segundos) del video
+    nuevaPosic = Math.floor(tiempTotal * porc / 100); // nueva posic a reproducir
+    media.currentTime = nuevaPosic;
+}
+
+media.addEventListener('loadedmetadata', calcularTiempo);
 media.addEventListener('timeupdate', setTime);
 
 rwd.addEventListener('click', mediaBackward);
@@ -133,6 +158,8 @@ fwd.addEventListener('click', mediaForward);
 
 stop.addEventListener('click', stopMedia);
 media.addEventListener('ended', stopMedia);
+
+timerWrapper.addEventListener('click', moveToTimeOffset);
 
 media.removeAttribute('controls'); // quitar los controles por defecto
 controls.style.visibility = 'visible';

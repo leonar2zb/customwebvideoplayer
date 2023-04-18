@@ -1,12 +1,10 @@
 .controls {
     visibility: hidden;
     opacity: 0.4;
-    width: 400px;
+    width: 100%;
     border-radius: 10px;
     position: relative;
     bottom: 20px;
-    left: 50%;
-    margin-left: -200px;
     background-color: black;
     box-shadow: 3px 3px 5px black;
     transition: 1s all;
@@ -25,6 +23,8 @@ video {
 
 .player {
     max-width: 400px;
+    position: relative;
+    left: 50px;
 }
 
 .timer {
@@ -32,9 +32,10 @@ video {
     font-size: 18px;
     font-family: monospace;
     text-shadow: 1px 1px 0px black;
-    color: white;
+    color: yellow;
     flex: 5;
     position: relative;
+    cursor: col-resize;
 }
 
 .timer div {
