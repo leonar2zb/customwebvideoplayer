@@ -13,24 +13,50 @@ const timerBar = document.querySelector('.timer div');
 
 play.addEventListener('click', playPauseMedia);
 
+// simular pulsación del botón
+function Press(button) {
+    button.style.borderRadius = '30%';
+}
+
+// simular liberación del botón
+function Release(button) {
+    button.style.borderRadius = '';
+}
+
+// Desactivar FF si estaba, sino no pasa nada
+function NoMoreFastFordward() {
+    fwd.classList.remove('active');
+    clearInterval(intervalFwd);
+    Release(fwd);
+}
+
+// Desactivar RW si estaba, sino no pasa nada
+function NoMoreRewind() {
+    rwd.classList.remove('active');
+    clearInterval(intervalRwd);
+    Release(rwd);
+}
+
 function playPauseMedia() {
     if (media.paused) {
         play_i.classList.remove('fa-play');
         play_i.classList.add('fa-pause');
         media.play();
+        Press(play);
     } else {
         play_i.classList.remove('fa-pause');
         play_i.classList.add('fa-play');
         media.pause();
+        Release(play);
     }
+    NoMoreFastFordward();
+    NoMoreRewind();
 }
 
 function stopMedia() {
-    rwd.classList.remove('active');
-    fwd.classList.remove('active');
-    clearInterval(intervalRwd);
-    clearInterval(intervalFwd);
-
+    NoMoreFastFordward();
+    NoMoreRewind();
+    Release(play);
     media.pause();
     media.currentTime = 0;
     play_i.classList.remove('fa-pause');
@@ -41,39 +67,36 @@ let intervalFwd;
 let intervalRwd;
 
 function mediaBackward() {
-    clearInterval(intervalFwd);
-    fwd.classList.remove('active');
-
+    NoMoreFastFordward();
     if (rwd.classList.contains('active')) {
-        rwd.classList.remove('active');
-        clearInterval(intervalRwd);
-        media.play();
+        NoMoreRewind();
+        if (play_i.classList.contains('fa-pause')) // si estaba en modo play
+            media.play();
     } else {
         rwd.classList.add('active');
         media.pause();
+        Press(rwd);
         intervalRwd = setInterval(windBackward, 200);
     }
 }
 
 function mediaForward() {
-    clearInterval(intervalRwd);
-    rwd.classList.remove('active');
-
+    NoMoreRewind();
     if (fwd.classList.contains('active')) {
-        fwd.classList.remove('active');
-        clearInterval(intervalFwd);
-        media.play();
+        NoMoreFastFordward();
+        if (play_i.classList.contains('fa-pause')) // si estaba en modo play
+            media.play();
     } else {
         fwd.classList.add('active');
         media.pause();
+        Press(fwd);
         intervalFwd = setInterval(windForward, 200);
     }
 }
 
 function windBackward() {
     if (media.currentTime <= 3) {
-        rwd.classList.remove('active');
-        clearInterval(intervalRwd);
+        NoMoreRewind();
         stopMedia();
     } else {
         media.currentTime -= 3;
@@ -82,8 +105,7 @@ function windBackward() {
 
 function windForward() {
     if (media.currentTime >= media.duration - 3) {
-        fwd.classList.remove('active');
-        clearInterval(intervalFwd);
+        NoMoreFastFordward();
         stopMedia();
     } else {
         media.currentTime += 3;
@@ -112,5 +134,5 @@ fwd.addEventListener('click', mediaForward);
 stop.addEventListener('click', stopMedia);
 media.addEventListener('ended', stopMedia);
 
-media.removeAttribute('controls');
+media.removeAttribute('controls'); // quitar los controles por defecto
 controls.style.visibility = 'visible';
