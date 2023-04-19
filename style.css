@@ -19,12 +19,20 @@
 
 video {
     max-width: 100%;
+    min-height: 350px;
 }
 
 .player {
-    max-width: 400px;
+    width: 400px;
+    height: 400px;
     position: relative;
     left: 50px;
+}
+
+.novideoloaded {
+    background-image: url("./video/fondo.gif");
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .timer {

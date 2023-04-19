@@ -15,10 +15,9 @@
 
     <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Video_and_audio_APIs">Original
         en Mozilla</a>
+    <input type="file" accept="video/*" id="loadedvideo">
     <div class="player">
-        <video controls>
-            <source src="video/gmail.mp4" type="video/mp4" />
-            <!-- <source src="video/sintel-short.webm" type="video/webm" /> -->
+        <video controls class="novideoloaded">
             Su reproductor no admite videos, al menos no soporta los formatos utilizados
         </video>
         <div class="controls">
